@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  before_save :downcase_email
+  before_save :downcase_email #セーブする前に小文字にする
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
