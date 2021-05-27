@@ -9,4 +9,8 @@ RSpec.describe "ユーザー登録", type: :request do
     expect(response).to be_success
     expect(response).to have_http_status "200"
   end
+
+  it "正しい値の場合は登録できること" do
+    
+  end
 end
