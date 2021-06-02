@@ -12,7 +12,9 @@ gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '3.1.13'
+gem 'faker'
+gem 'jquery-rails', '4.3.1'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
