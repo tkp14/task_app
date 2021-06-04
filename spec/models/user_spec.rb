@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
     end
 
     it "メールアドレスが不正の場合は無効なこと" do
-      user = build(:user, email: th@com)
+      user = build(:user, email: @com)
       user.valid?
       expect(user.errors[:email]).to include("は不正な値です")
     end

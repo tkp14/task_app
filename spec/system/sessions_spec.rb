@@ -17,10 +17,6 @@ RSpec.describe "Sessions", type: :system do
         expect(page).to have_content 'ログイン'
       end
 
-      it "ヘッダーにログインページへのリンクがあること" do
-        expect(page).to have_link 'ログイン', href: login_path
-      end
-
       it "ログインフォームのラベルが正しく表示される" do
         expect(page).to have_content 'メールアドレス'
         expect(page).to have_content 'パスワード'
@@ -34,14 +30,35 @@ RSpec.describe "Sessions", type: :system do
       it "ログインボタンが表示される" do
         expect(page).to have_button 'ログイン'
       end
+
+      it "ユーザー未登録、パスワードを忘れた人のための表示と正しいURLがあること" do
+        expect(page).to have_content 'ユーザー登録がまだの方は'
+        expect(page).to have_content 'パスワードを忘れた方は'
+        expect(page).to have_link 'こちら', href: signup_path
+      end
     end
 
     context "ログイン処理について" do
-      it "有効なユーザーの場合はログインできること" do
+      it "有効なユーザーの場合はログインできること&ログイン前後でヘッダーが切り替わること" do
+        expect(page).to have_link 'タスクシェアとは？', href: about_path
+        expect(page).to have_link 'ユーザー登録(無料)', href: signup_path
+        expect(page).to have_link 'ログイン', href: login_path
+        expect(page).not_to have_link 'ログアウト', href: logout_path
+        fill_in "user_email", with: "user@example.com"
+        fill_in "user_password", with: "foobar"
+        click_button "ログイン"
+        expect(page).to have_link 'タスクシェアとは？', href: about_path
+        expect(page).to have_link 'ユーザー一覧', href: users_path
+        expect(page).to have_link 'プロフィール', href: user_path(user)
+        expect(page).to have_link 'ログアウト', href: logout_path
+        expect(page).not_to have_link 'ログイン', href: login_path
       end
 
       it "無効なユーザーの場合はログインできないこと" do
-
+        fill_in "user_email", with: "aaa@example.com"
+        fill_in "user_password", with: "pass"
+        click_button "ログイン"
+        expect(page).to have_content 'メールアドレスとパスワードの組み合わせが誤っています'
       end
     end
   end
