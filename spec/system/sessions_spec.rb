@@ -44,8 +44,8 @@ RSpec.describe "Sessions", type: :system do
         expect(page).to have_link 'ユーザー登録(無料)', href: signup_path
         expect(page).to have_link 'ログイン', href: login_path
         expect(page).not_to have_link 'ログアウト', href: logout_path
-        fill_in "user_email", with: "user@example.com"
-        fill_in "user_password", with: "foobar"
+        fill_in "user_email", with: user.email
+        fill_in "user_password", with: user.password
         click_button "ログイン"
         expect(page).to have_link 'タスクシェアとは？', href: about_path
         expect(page).to have_link 'ユーザー一覧', href: users_path
