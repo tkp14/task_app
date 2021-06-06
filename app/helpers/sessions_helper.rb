@@ -32,7 +32,7 @@ module SessionsHelper
 
   # 永続的セッションを破棄する
   def forget(user)
-    user.forget
+    user.forget #remember_digestをnilにする
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
   end
