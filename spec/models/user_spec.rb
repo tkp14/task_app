@@ -61,6 +61,12 @@ RSpec.describe User, type: :model do
       user.valid?
       expect(user).to be_valid
     end
+
+    it "自己紹介文が150文字以内であること" do
+      user = build(:user, introduction: "a" * 151)
+      user.valid?
+      expect(user.errors[:introduction]).to include("は150文字以内で入力してください")
+    end
   end
 
   context "authenticated?メソッド" do

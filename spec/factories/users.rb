@@ -5,6 +5,5 @@ FactoryBot.define do
     password { "foobar" }
     password_confirmation { "foobar" }
     introduction { "はじめまして。頑張ります！" }
-    description { "28歳です" }
   end
 end
