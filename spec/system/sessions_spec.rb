@@ -38,7 +38,7 @@ RSpec.describe "Sessions", type: :system do
 
       it "ユーザー未登録、パスワードを忘れた人のための表示と正しいURLがあること" do
         expect(page).to have_content 'ユーザー登録がまだの方は'
-        expect(page).to have_content 'パスワードを忘れた方は'
+        # expect(page).to have_content 'パスワードを忘れた方は'
         expect(page).to have_link 'こちら', href: signup_path
       end
     end

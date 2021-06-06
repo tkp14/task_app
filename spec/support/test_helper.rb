@@ -10,7 +10,7 @@ def login_for_request(user)
 end
 
 def login_remember(user)
-  post login_path, params: { session: { email: "xxx@example.com",
+  post login_path, params: { session: { email: user.email,
                                         password: user.password,
                                         remember_me: '1' } }
 end
