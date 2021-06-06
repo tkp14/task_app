@@ -15,8 +15,7 @@ RSpec.describe "Sessions", type: :request do
 
     it "有効なユーザーでログイン&ログアウト" do
       post login_path, params: { session: { email: user.email,
-                                            password: user.password,
-                                             } }
+                                            password: user.password } }
       redirect_to user
       follow_redirect!
       expect(response).to render_template('users/show')
