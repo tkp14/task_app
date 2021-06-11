@@ -1,5 +1,5 @@
 <% provide(:title, "プロフィール") %>
-<div class="container profile">
+<div class="container">
   <div class="row">
     <div class="profile-title">
       <h1>プロフィール</h1>
@@ -9,7 +9,7 @@
         <%= gravatar_for @user, size: 160, cl: "gravatar user-picture" %>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6 col-md-offset-1">
       <div class="show-name">
         <%= @user.name %>
       </div>
