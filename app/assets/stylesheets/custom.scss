@@ -118,7 +118,7 @@ input {
 }
 
 //// プロフィールページ ////
-.title-profile {
+.profile h1{
   padding-bottom: 10px;
   border-bottom: 1px solid #eaeaea ;
 }
@@ -129,14 +129,14 @@ input {
   box-sizing: border-box;
 }
 
-.user-picture-box {
+.show-picture {
   margin-top: 0.5em;
   margin-left: 1em;
 }
 
 .show-name {
   display: inline-block;
-  font-size: large;
+  font-size: 2em;
 }
 
 .account-edit {
