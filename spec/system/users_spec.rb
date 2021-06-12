@@ -43,6 +43,7 @@ RSpec.describe "Users", type: :system do
   describe "プロフィールページ" do
     context "ページレイアウト" do
       before do
+        login_for_system(user)
         visit user_path(user)
       end
 
@@ -59,7 +60,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_content user.introduction
       end
 
-      it "プロフィール編集のボタンがあり、リンクがつながっていること" do
+      it "自分のページにプロフィール編集のリンクがあること" do
         expect(page).to have_link 'プロフィール編集', href: edit_user_path(user)
       end
     end
@@ -67,6 +68,7 @@ RSpec.describe "Users", type: :system do
 
   describe "プロフィール編集ページ" do
     before do
+      login_for_system(user)
       visit user_path(user)
       click_link "プロフィール編集"
     end
