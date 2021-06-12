@@ -14,8 +14,8 @@ RSpec.describe "プロフィール編集", type: :request do
 
   it "有効なプロフィール更新の場合" do
     patch user_path(user), params: { user: { name: "Example User",
-                                              email: "user@example.com",
-                                              introduction: "こんにちは" } }
+                                             email: "user@example.com",
+                                             introduction: "こんにちは" } }
     redirect_to user
     follow_redirect!
     expect(response).to render_template('users/show')
