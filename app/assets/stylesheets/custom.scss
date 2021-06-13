@@ -143,3 +143,17 @@ input {
 .account-edit {
   margin-top: 20px;
 }
+
+//// ユーザー一覧ページ ////
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 15px 0;
+    border-top: 1px solid #eaeaea ;
+  }
+  li:first-child {
+    border: none;
+  }
+}
