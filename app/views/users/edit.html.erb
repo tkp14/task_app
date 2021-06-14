@@ -22,6 +22,8 @@
         <%= f.text_area :introduction, class: 'form-control', id: 'user_introduction' %>
       </div>
       <%= f.submit '更新する', class: 'btn btn-primary' %>
+      <%= link_to "アカウントを削除する", user_path(@user), method: :delete,
+                                data: { confirm: "本当にこのアカウントを削除してよろしいですか？" } %>
     <% end %>
   </div>
 </div>
