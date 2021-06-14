@@ -73,8 +73,8 @@ RSpec.describe "Users", type: :system do
       visit user_path(user)
       click_link "プロフィール編集"
     end
-    context "ページレイアウト" do
 
+    context "ページレイアウト" do
       it "正しいタイトルが表示されていること" do
         expect(page).to have_title full_title('ユーザー編集')
       end
