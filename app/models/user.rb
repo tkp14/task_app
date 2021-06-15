@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :tasks, dependent: :destroy
   attr_accessor :remember_token #仮想の属性を作成
   before_save :downcase_email #セーブする前に小文字にする
   validates :name, presence: true, length: { maximum: 50 }
