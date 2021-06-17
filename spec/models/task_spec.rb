@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-  let(:task) { create(:task) }
+  let!(:task) { create(:task) }
 
   context "バリデーション" do
     it "有効な状態であること" do
