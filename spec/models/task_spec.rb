@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
+  let!(:task_yesterday) { create(:task, :yesterday) }
+  let!(:task_one_week_ago) { create(:task, :one_week_ago) }
+  let!(:task_one_month_ago) { create(:task, :one_month_ago) }
   let!(:task) { create(:task) }
 
   context "バリデーション" do
@@ -30,6 +33,12 @@ RSpec.describe Task, type: :model do
       task = build(:task, introduction: "a" * 51)
       task.valid?
       expect(task.errors[:introduction]).to include("は50文字以内で入力してください")
+    end
+  end
+
+  context "並び順" do
+    it "最も最近の投稿が最初の投稿になっていること" do
+      expect(task).to eq Task.first
     end
   end
 end
