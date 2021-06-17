@@ -4,6 +4,7 @@ FactoryBot.define do
     introduction { "10時から筋トレを30分間する" }
     required_time { 30 }
     association :user
+    created_at { Time.current }
   end
 
   trait :yesterday do
