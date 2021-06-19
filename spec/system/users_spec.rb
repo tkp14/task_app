@@ -67,13 +67,14 @@ RSpec.describe "Users", type: :system do
       end
 
       it "タスクの件数が表示されていること" do
-        expect(page).to have_content "タスク (#{user.tasks.count})"
+        expect(page).to have_content "タスク(#{user.tasks.count})"
       end
 
       it "タスク情報が表示されることを確認" do
         Task.take(5).each do |task|
-          expect(page).to have_content task.name
+          expect(page).to have_link user.name
           expect(page).to have_content task.introduction
+        end
       end
 
       it "タスクのページネーションが表示されていることを確認" do
