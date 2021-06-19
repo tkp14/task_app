@@ -45,6 +45,7 @@ RSpec.describe "Users", type: :system do
     context "ページレイアウト" do
       before do
         login_for_system(user)
+        create_list(:task, 10, user: user)
         visit user_path(user)
       end
 
@@ -63,6 +64,20 @@ RSpec.describe "Users", type: :system do
 
       it "自分のページにプロフィール編集のリンクがあること" do
         expect(page).to have_link 'プロフィール編集', href: edit_user_path(user)
+      end
+
+      it "タスクの件数が表示されていること" do
+        expect(page).to have_content "タスク (#{user.tasks.count})"
+      end
+
+      it "タスク情報が表示されることを確認" do
+        Task.take(5).each do |task|
+          expect(page).to have_content task.name
+          expect(page).to have_content task.introduction
+      end
+
+      it "タスクのページネーションが表示されていることを確認" do
+        expect(page).to have_css "div.pagination"
       end
     end
   end
