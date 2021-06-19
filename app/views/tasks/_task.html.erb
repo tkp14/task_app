@@ -1,0 +1,8 @@
+<li id="task-<%= task.id %>">
+  <%= link_to gravatar_for(task.user, size: 50), task.user %>
+  <span class="name"><%= link_to task.user.name, task.user %></span>
+  <span class="introduction"><%= task.introduction %></span>
+  <span class="timestamp">
+    <%= time_ago_in_words(task.created_at) %>前に投稿
+  </span>
+</li>
