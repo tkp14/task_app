@@ -21,4 +21,15 @@
       <% end %>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-10">
+      <% if @user.tasks.any? %>
+        <h3>料理(<%= @user.tasks.count %>)</h3>
+        <ol class="tasks">
+          <%= render @tasks %>
+        </ol>
+        <%= will_paginate @tasks %>
+      <% end %>
+    </div>
+  </div>
 </div>
