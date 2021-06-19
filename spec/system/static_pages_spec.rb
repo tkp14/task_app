@@ -15,6 +15,23 @@ RSpec.describe "StaticPages", type: :system do
         expect(page).to have_content "タスクシェア"
       end
     end
+
+    context "タスクフィード", js: true do
+      let!(:user) { create(:user) }
+      let!(:task) { create(:task, user: user) }
+
+      it "タスクのぺージネーションが表示されること" do
+        login_for_system(user)
+        create_list(:task, 10, user: user)
+        visit root_path
+        expect(page).to have_content "みんなのタスク (#{user.tasks.count})"
+        Task.take(5).each do |task|
+          expect(page).to have_link user.name
+          expect(page).to have_content task.introduction
+        end
+          expect(page).to have_css "div.pagination"
+      end
+    end
   end
 
   describe "タスクシェアとは？ページ" do
