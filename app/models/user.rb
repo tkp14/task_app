@@ -23,6 +23,11 @@ class User < ApplicationRecord
     def new_token
       SecureRandom.urlsafe_base64
     end
+
+    # フィード一覧を取得
+    def feed
+      Task.where(user_id: id)
+    end
   end
 
   # 永続セッションのためにユーザーをデータベースに記憶する
