@@ -119,6 +119,7 @@ input {
 
 //// プロフィールページ ////
 .profile-title h1{
+  padding-top: 15px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eaeaea ;
   text-align: left;
@@ -132,7 +133,7 @@ input {
 
 .show-picture {
   margin-top: 0.5em;
-  margin-left: 1em;
+  margin-left: 2em;
 }
 
 .show-name {
@@ -156,4 +157,40 @@ input {
   li:first-child {
     border: none;
   }
+}
+
+//タスク
+.task {
+  font-size: 2.5em;
+}
+.tasks {
+  list-style: none;
+  padding-left: 0;
+  li {
+    overflow: auto;
+    padding: 15px 0;
+    border-top: 1px solid #eaeaea ;
+  }
+}
+
+.name {
+  padding-left: 10px;
+}
+
+.introduction {
+  padding-left: 10px;
+}
+
+.timestamp {
+  padding-left: 10px;
+  padding-top: 15px;
+  display: inline-block;
+  padding-right: 60px;
+  float: right;
+}
+
+.gravatar {
+  float: left;
+  margin-right: 20px;
+  margin-top: 5px;
 }
