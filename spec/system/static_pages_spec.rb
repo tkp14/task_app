@@ -31,6 +31,12 @@ RSpec.describe "StaticPages", type: :system do
         end
           expect(page).to have_css "div.pagination"
       end
+
+      it "タスクを投稿するボタンが表示されていること" do
+        login_for_system(user)
+        visit root_path
+        expect(page).to have_link "タスクを投稿する", href: new_task_path
+      end
     end
   end
 
