@@ -4,7 +4,7 @@ RSpec.describe "Tasks", type: :system do
   let!(:user) { create(:user) }
   let!(:task) { create(:task, user: user) }
 
-  describe "タスクページ" do
+  describe "タスク機能" do
     before do
       login_for_system(user)
       visit root_path
@@ -18,6 +18,24 @@ RSpec.describe "Tasks", type: :system do
 
       it "タスクの投稿の文字列が表示されていること" do
         expect(page).to have_content "タスクの投稿"
+      end
+    end
+
+    context "タスクの投稿" do
+      it "有効なデータでタスクの投稿を行うと成功する場合" do
+        fill_in "タスク名", with: "今日の積み上げ"
+        fill_in "タスクの内容", with: "筋トレを行う"
+        click_button "投稿する"
+        expect(page).to have_content "タスクの投稿が完了しました！"
+        redirect_to root_url
+      end
+
+      it "無効なデータで、投稿に失敗する場合" do
+        fill_in "タスク名", with: ""
+        fill_in "タスクの内容", with: ""
+        click_button "投稿する"
+        expect(page).to have_content "タスク名を入力してください"
+        expect(page).to have_content "タスクの内容を入力してください"
       end
     end
   end
