@@ -1,6 +1,10 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
 
+  def show
+    @task = Task.find(paramas[:id])
+  end
+
   def new
     @task = Task.new
   end
