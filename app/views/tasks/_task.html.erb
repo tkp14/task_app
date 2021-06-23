@@ -1,6 +1,6 @@
 <li id="task-<%= task.id %>">
   <%= link_to gravatar_for(task.user, size: 50), task.user %>
-  <span class="name"><%= link_to task.user.name, task.user %></span><br>
+  <span class="name"><%= link_to task.name, task_path(task) %></span><br>
   <span class="introduction"><%= task.introduction %></span><br>
   <span class="timestamp">
     <%= time_ago_in_words(task.created_at) %>前に投稿

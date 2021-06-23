@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :logged_in_user
 
   def show
-    @task = Task.find(paramas[:id])
+    @task = Task.find(params[:id])
   end
 
   def new
