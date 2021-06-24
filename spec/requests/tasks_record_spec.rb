@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "タスクについて", type: :request do
+RSpec.describe "タスクの投稿", type: :request do
   let!(:user) { create(:user) }
   let!(:task) { create(:task, user: user) }
 
