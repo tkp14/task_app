@@ -4,14 +4,14 @@ RSpec.describe "Tasks", type: :system do
   let!(:user) { create(:user) }
   let!(:task) { create(:task, user: user) }
 
-  describe "タスク機能" do
+  describe "タスクの投稿について" do
     before do
       login_for_system(user)
       visit root_path
       click_link "タスクを投稿する"
     end
 
-    context "ページレイアウト" do
+    context "タスクの投稿ページ" do
       it "正しいタイトルが表示されること" do
         expect(page).to have_title('タスクの投稿')
       end
@@ -36,6 +36,25 @@ RSpec.describe "Tasks", type: :system do
         click_button "投稿する"
         expect(page).to have_content "タスク名を入力してください"
         expect(page).to have_content "タスクの内容を入力してください"
+      end
+    end
+  end
+
+  describe "タスクの詳細について" do
+    context "ページレイアウト" do
+      before do
+        login_for_system(user)
+        visit root_path
+        click_link task.name
+      end
+
+      it "正しいタイトルが表示されること" do
+        expect(page).to have_title task.name
+      end
+
+      it "タスクの名前と内容が表示されていること" do
+        expect(page).to have_content task.name
+        expect(page).to have_content task.introduction
       end
     end
   end
