@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = "タスクの投稿が完了しました！"
-      redirect_to root_url
+      redirect_to task_path(@task)
     else
       render 'tasks/new'
     end

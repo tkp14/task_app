@@ -21,7 +21,7 @@ RSpec.describe "タスクの投稿", type: :request do
                                            introduction: "筋トレをする"} }
       }.to change(Task, :count).by(1)
       follow_redirect!
-      expect(response).to render_template('static_pages/home')
+      expect(response).to render_template('tasks/show')
     end
 
     it "無効なデータの場合は投稿できないこと" do
