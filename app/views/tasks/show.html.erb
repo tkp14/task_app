@@ -4,8 +4,15 @@
     <div class="col-md-8 col-md-offset-2">
       <h1><%= @task.name %></h1>
     </div>
-    <div class="col-md-8 col-md-offset-2">
-      <h3><%= @task.introduction %></h3>
+    <div class="task_introduction col-md-8 col-md-offset-2">
+      <ul>
+        <li><%= @task.introduction %></li>
+      </ul>
+    </div>
+    <div class="task-edit col-md-6 col-md-offset-6">
+      <% if current_user == @task.user %>
+        <%= link_to "編集", edit_task_path(@task) %>
+      <% end %>
     </div>
   </div>
 </div>
