@@ -5,4 +5,10 @@
   <span class="timestamp">
     <%= time_ago_in_words(task.created_at) %>前に投稿
   </span>
+  <div class="task-delete">
+    <% if current_user.admin? || (current_user == task.user) %>
+      <%= link_to "削除", task_path(task), method: :delete,
+                        data: { confirm: "本当に削除しますか？" } %>
+    <% end %>
+  </div>
 </li>

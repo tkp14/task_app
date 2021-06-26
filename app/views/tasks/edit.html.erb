@@ -13,6 +13,10 @@
         <%= f.text_area :introduction, class: 'form-control', id: 'task_introduction' %>
       </div>
       <%= f.submit "更新する", class: 'btn btn-primary' %>
+      <% if current_user.admin? || (current_user == task.user) %>
+        <%= link_to "タスクを削除する", task_path(@task), method: :delete,
+                                data: { confirm: "本当にこのタスクを削除してよろしいですか？" } %>
+      <% end %>
     <% end %>
   </div>
 </div>
