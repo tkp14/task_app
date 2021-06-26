@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Tasks", type: :system do
   let!(:user) { create(:user) }
+  let!(:other_user) { create(:user) }
   let!(:task) { create(:task, user: user) }
 
   describe "タスクの投稿について" do
@@ -13,7 +14,7 @@ RSpec.describe "Tasks", type: :system do
 
     context "タスクの投稿ページ" do
       it "正しいタイトルが表示されること" do
-        expect(page).to have_title('タスクの投稿')
+        expect(page).to have_title full_title('タスクの投稿')
       end
 
       it "タスクの投稿の文字列が表示されていること" do
@@ -41,7 +42,7 @@ RSpec.describe "Tasks", type: :system do
   end
 
   describe "タスクの詳細について" do
-    context "ページレイアウト" do
+    context "ページレイアウト（認可されたユーザーの場合）" do
       before do
         login_for_system(user)
         visit root_path
@@ -49,12 +50,63 @@ RSpec.describe "Tasks", type: :system do
       end
 
       it "正しいタイトルが表示されること" do
-        expect(page).to have_title task.name
+        expect(page).to have_title full_title task.name
       end
 
       it "タスクの名前と内容が表示されていること" do
         expect(page).to have_content task.name
         expect(page).to have_content task.introduction
+      end
+
+      it "編集リンクが表示されていること" do
+        expect(page).to have_link "編集", href: edit_task_path(task)
+      end
+    end
+
+    context "認可されていないユーザーの場合" do
+      it "編集リンクが表示されていないこと" do
+        login_for_system(other_user)
+        visit user_path(user)
+        expect(page).not_to have_link "編集"
+      end
+    end
+  end
+
+  describe "タスクの編集について" do
+    before do
+      login_for_system(user)
+      visit task_path(task)
+      click_link '編集'
+    end
+
+    context "ページレイアウト" do
+      it "正しいタイトルが表示されること" do
+        expect(page).to have_title full_title("タスクの編集")
+      end
+
+      it "タスクの編集の文字列が表示されていること" do
+        expect(page).to have_content "タスクの編集"
+      end
+    end
+
+    context "タスクの更新処理" do
+      it "有効なデータでタスクの更新が成功する場合" do
+        fill_in "タスク名", with: "明日の予定"
+        fill_in "タスクの内容", with: "朝、散歩にいく"
+        click_button "更新する"
+        expect(page).to have_content "タスクを更新しました！"
+        expect(task.reload.name).to eq "明日の予定"
+        expect(task.reload.introduction).to eq "朝、散歩にいく"
+      end
+
+      it "無効なデータでタスクの更新が失敗する場合" do
+        fill_in "タスク名", with: ""
+        fill_in "タスクの内容", with: ""
+        click_button "更新する"
+        expect(task.reload.name).not_to eq ""
+        expect(task.reload.introduction).not_to eq ""
+        expect(page).to have_content "タスク名を入力してください"
+        expect(page).to have_content "タスクの内容を入力してください"
       end
     end
   end
