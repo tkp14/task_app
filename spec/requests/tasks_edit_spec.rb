@@ -5,9 +5,10 @@ RSpec.describe "タスクの編集", type: :request do
   let!(:task) { create(:task, user: user) }
 
   context "認可されたユーザーの場合" do
-    it "レスポンスが正常に表示されること" do
-      login_for_request(user)
+    it "レスポンスが正常に表示されること+フレンドリーフォワーディング" do
       get edit_task_path(task)
+      login_for_request(user)
+      expect(request).to redirect_to edit_task_path(task)
       patch task_path(task), params: { task: { name: "今日の積み上げ",
                                                introduction: "頑張ります" } }
       redirect_to task
