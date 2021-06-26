@@ -34,6 +34,18 @@ class TasksController < ApplicationController
     end
   end
 
+  def destroy
+    @task = Task.find(params[:id])
+    if current_user.admin? || current_user?(@task.user)
+      @task.destroy
+      flash[:success] = "タスクの削除をしました"
+      redirect_to request.referrer == user_url(@task.user) ? user_url(@task.user) : root_url
+    else
+      flash[:danger] = "他人のタスクは削除できません"
+      redirect_to root_url
+    end
+  end
+
   private
 
   #タスクの登録に必要な情報
