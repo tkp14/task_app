@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
+  before_action :correct_user, only: [:edit, :update]
 
   def show
     @task = Task.find(params[:id])
@@ -38,5 +39,11 @@ class TasksController < ApplicationController
   #タスクの登録に必要な情報
     def task_params
       params.require(:task).permit(:name, :introduction)
+    end
+
+    def correct_user
+      # 現在のユーザーが更新対象のタスクを保有しているかどうか確認
+      @task = current_user.tasks.find_by(id: params[:id])
+      redirect_to root_url if @task.nil?
     end
 end
