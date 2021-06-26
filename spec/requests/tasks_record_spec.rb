@@ -33,6 +33,14 @@ RSpec.describe "タスクの投稿", type: :request do
     end
   end
 
+  context "ログインユーザーのフレンドリーフォワーディングについて" do
+    it "正しくリダイレクトされること" do
+      get new_task_path
+      login_for_request(user)
+      expect(request).to redirect_to new_task_url
+    end
+  end
+
   context "ログインしていない場合" do
     it "ログインページへリダイレクトされること" do
       get new_task_path
