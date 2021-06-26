@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "タスクの編集", type: :request do
   let!(:user) { create(:user) }
+  let!(:other_user) { create(:user) }
   let!(:task) { create(:task, user: user) }
 
   context "認可されたユーザーの場合" do
@@ -17,17 +18,32 @@ RSpec.describe "タスクの編集", type: :request do
     end
   end
 
+  context "ログインユーザーではあるが本人ではない場合" do
+    it "ホームページへリダイレクトされること" do
+      #編集
+      login_for_request(other_user)
+      get edit_task_path(task)
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to root_url
+      #更新
+      patch task_path(task), params: { task: { name: "今日の積み上げ",
+                                               introduction: "頑張ります" } }
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to root_url
+    end
+  end
+
   context "ログインしていないユーザーの場合" do
     it "ログインページへリダイレクトされること" do
       #編集
       get edit_task_path(task)
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to login_path
+      expect(response).to redirect_to login_url
       #更新
       patch task_path(task), params: { task: { name: "今日の積み上げ",
                                                introduction: "頑張ります" } }
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to login_path
+      expect(response).to redirect_to login_url
     end
   end
 end
