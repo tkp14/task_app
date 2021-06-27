@@ -29,10 +29,10 @@ RSpec.describe Task, type: :model do
       expect(task.errors[:introduction]).to include("を入力してください")
     end
 
-    it "introductionが50文字以内であること" do
-      task = build(:task, introduction: "a" * 51)
+    it "introductionが200文字以内であること" do
+      task = build(:task, introduction: "a" * 201)
       task.valid?
-      expect(task.errors[:introduction]).to include("は50文字以内で入力してください")
+      expect(task.errors[:introduction]).to include("は200文字以内で入力してください")
     end
   end
 
