@@ -42,13 +42,13 @@ RSpec.describe "Users", type: :system do
   end
 
   describe "プロフィールページ" do
-    context "ページレイアウト" do
-      before do
-        login_for_system(user)
-        create_list(:task, 10, user: user)
-        visit user_path(user)
-      end
+    before do
+      login_for_system(user)
+      create_list(:task, 10, user: user)
+      visit user_path(user)
+    end
 
+    context "ページレイアウト" do
       it "「プロフィール」の文字列が存在することを確認" do
         expect(page).to have_content 'プロフィール'
       end
@@ -79,6 +79,14 @@ RSpec.describe "Users", type: :system do
 
       it "タスクのページネーションが表示されていることを確認" do
         expect(page).to have_css "div.pagination"
+      end
+    end
+
+    context "タスクの削除処理", js: true do
+      it "削除リンクによってタスクを削除できること" do
+        click_on "削除", match: :first
+        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_content "タスクの削除をしました"
       end
     end
   end

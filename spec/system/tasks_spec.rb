@@ -42,7 +42,7 @@ RSpec.describe "Tasks", type: :system do
   end
 
   describe "タスクの詳細について" do
-    context "ページレイアウト（認可されたユーザーの場合）" do
+    context "ページレイアウト（認可されたユーザーの場合)", js: true do
       before do
         login_for_system(user)
         visit root_path
@@ -61,13 +61,20 @@ RSpec.describe "Tasks", type: :system do
       it "編集リンクが表示されていること" do
         expect(page).to have_link "編集", href: edit_task_path(task)
       end
+
+      it "削除リンクが表示されており、タスクを削除できること" do
+        click_link "削除"
+        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_content "タスクの削除をしました"
+      end
     end
 
     context "認可されていないユーザーの場合" do
-      it "編集リンクが表示されていないこと" do
+      it "編集リンクと削除リンクが表示されていないこと" do
         login_for_system(other_user)
         visit user_path(user)
         expect(page).not_to have_link "編集"
+        expect(page).not_to have_link "削除"
       end
     end
   end
@@ -107,6 +114,14 @@ RSpec.describe "Tasks", type: :system do
         expect(task.reload.introduction).not_to eq ""
         expect(page).to have_content "タスク名を入力してください"
         expect(page).to have_content "タスクの内容を入力してください"
+      end
+    end
+
+    context "タスクの削除処理", js: true do
+      it "「タスクを削除する」のリンクによってタスクを削除できること" do
+        click_link "タスクを削除する"
+        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_content "タスクの削除をしました"
       end
     end
   end

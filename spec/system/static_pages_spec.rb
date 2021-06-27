@@ -37,6 +37,14 @@ RSpec.describe "StaticPages", type: :system do
         visit root_path
         expect(page).to have_link "タスクを投稿する", href: new_task_path
       end
+
+      it "削除リンクで削除できること", js: true do
+        login_for_system(user)
+        visit root_path
+        click_link "削除"
+        page.driver.browser.switch_to.alert.accept
+        expect(page).to have_content "タスクの削除をしました"
+      end
     end
   end
 
