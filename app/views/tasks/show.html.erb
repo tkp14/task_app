@@ -9,7 +9,7 @@
         <li><%= @task.introduction %></li>
       </ul>
     </div>
-    <div class="task-edit col-md-6 col-md-offset-6">
+    <div class="task-edit col-md-12">
       <% if current_user == @task.user %>
         <%= link_to "編集", edit_task_path(@task) %>
       <% end %>
