@@ -50,7 +50,7 @@ class TasksController < ApplicationController
 
   #タスクの登録に必要な情報
     def task_params
-      params.require(:task).permit(:name, :introduction)
+      params.require(:task).permit(:name, :introduction, :picture)
     end
 
     def correct_user
