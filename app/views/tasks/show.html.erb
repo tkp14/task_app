@@ -4,7 +4,10 @@
     <div class="col-md-6 col-md-offset-3">
       <h1><%= @task.name %></h1>
     </div>
-    <div class="task_introduction col-md-8 col-md-offset-2">
+    <div class="col-md-4">
+      <%= link_to((image_tag @task.picture.url), task_path(@task.id), class: 'task-picture') if @task.picture.url.present? %>
+    </div>
+    <div class="task_introduction col-md-8">
       <ul>
         <li><%= @task.introduction %></li>
       </ul>
