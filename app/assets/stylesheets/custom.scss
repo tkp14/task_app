@@ -177,12 +177,14 @@ input {
   }
 }
 
-.name {
+.task-name {
   padding-left: 10px;
+  font-size: 2em;
 }
 
-.introduction {
-  padding-left: 10px;
+.task-introduction {
+  padding-left: 150px;
+  font-size: 1.5em;
 }
 
 .timestamp {
@@ -222,4 +224,15 @@ input {
 
 .task-edit {
   text-align: center;
+  padding-top: 20px;
+}
+
+.edit-link {
+  padding-right: 10px;
+}
+
+.task-picture img {
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
 }

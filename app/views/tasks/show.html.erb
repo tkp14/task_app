@@ -14,7 +14,7 @@
     </div>
     <div class="task-edit col-md-12">
       <% if current_user == @task.user %>
-        <%= link_to "編集", edit_task_path(@task) %>
+        <%= link_to "編集", edit_task_path(@task), class: 'edit-link' %>
       <% end %>
       <% if current_user.admin? || (current_user == @task.user) %>
         <%= link_to "削除", task_path(@task), method: :delete,
