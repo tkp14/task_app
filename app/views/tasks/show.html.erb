@@ -5,7 +5,7 @@
       <h1><%= @task.name %></h1>
     </div>
     <div class="col-md-4">
-      <%= link_to((image_tag @task.picture.url), task_path(@task.id), class: 'task-picture') if @task.picture.url.present? %>
+      <%= link_to((image_tag @task.picture.thumb400.url), task_path(@task.id), class: 'task-picture') if @task.picture.url.present? %>
     </div>
     <div class="task_introduction col-md-8">
       <ul>
