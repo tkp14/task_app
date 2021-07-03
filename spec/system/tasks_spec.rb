@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Tasks", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
-  let!(:task) { create(:task, user: user) }
+  let!(:task) { create(:task, :picture, user: user) }
 
   describe "タスクの投稿について" do
     before do
@@ -26,6 +26,7 @@ RSpec.describe "Tasks", type: :system do
       it "有効なデータでタスクの投稿を行うと成功する場合" do
         fill_in "タスク名", with: "今日の積み上げ"
         fill_in "タスクの内容", with: "筋トレを行う"
+        attach_file 'task[picture]', "#{Rails.root}/spec/fixtures/test_task.jpg"
         click_button "投稿する"
         expect(page).to have_content "タスクの投稿が完了しました！"
         redirect_to root_url
@@ -56,6 +57,7 @@ RSpec.describe "Tasks", type: :system do
       it "タスクの名前と内容が表示されていること" do
         expect(page).to have_content task.name
         expect(page).to have_content task.introduction
+        expect(page).to have_link nil, href: task_path(task), class: 'task-picture'
       end
 
       it "編集リンクが表示されていること" do
@@ -100,10 +102,12 @@ RSpec.describe "Tasks", type: :system do
       it "有効なデータでタスクの更新が成功する場合" do
         fill_in "タスク名", with: "明日の予定"
         fill_in "タスクの内容", with: "朝、散歩にいく"
+        attach_file 'task[picture]', "#{Rails.root}/spec/fixtures/test_task2.jpg"
         click_button "更新する"
         expect(page).to have_content "タスクを更新しました！"
         expect(task.reload.name).to eq "明日の予定"
         expect(task.reload.introduction).to eq "朝、散歩にいく"
+        expect(task.reload.picture.url).to include "test_task2.jpg"
       end
 
       it "無効なデータでタスクの更新が失敗する場合" do
