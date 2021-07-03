@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "タスクの投稿", type: :request do
   let!(:user) { create(:user) }
   let!(:task) { create(:task, user: user) }
+  let(:picture_path) { File.join(Rails.root, 'spec/fixtures/test_task.jpg') }
+  let(:picture) { Rack::Test::UploadedFile.new(picture_path) }
 
   context "ログインしている場合" do
     before do
@@ -18,7 +20,8 @@ RSpec.describe "タスクの投稿", type: :request do
     it "有効なデータの場合は投稿できること" do
       expect {
         post tasks_path, params: { task: { name: "今日の積み上げ",
-                                           introduction: "筋トレをする"} }
+                                           introduction: "筋トレをする",
+                                           picture: picture} }
       }.to change(Task, :count).by(1)
       follow_redirect!
       expect(response).to render_template('tasks/show')
@@ -27,7 +30,8 @@ RSpec.describe "タスクの投稿", type: :request do
     it "無効なデータの場合は投稿できないこと" do
       expect {
         post tasks_path, params: { task: { name: "",
-                                           introduction: ""} }
+                                           introduction: "",
+                                           picture: picture} }
       }.not_to change(Task, :count)
       expect(response).to render_template('tasks/new')
     end

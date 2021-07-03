@@ -4,6 +4,8 @@ RSpec.describe "タスクの編集", type: :request do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:task) { create(:task, user: user) }
+  let(:picture2_path) { File.join(Rails.root, 'spec/fixtures/test_task2.jpg') }
+  let(:picture2) { Rack::Test::UploadedFile.new(picture2_path) }
 
   context "認可されたユーザーの場合" do
     it "レスポンスが正常に表示されること+フレンドリーフォワーディング" do
@@ -11,7 +13,8 @@ RSpec.describe "タスクの編集", type: :request do
       login_for_request(user)
       expect(request).to redirect_to edit_task_path(task)
       patch task_path(task), params: { task: { name: "今日の積み上げ",
-                                               introduction: "頑張ります" } }
+                                               introduction: "頑張ります",
+                                               picture: picture2 } }
       redirect_to task
       follow_redirect!
       expect(response).to render_template('tasks/show')
