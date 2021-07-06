@@ -149,6 +149,11 @@ input {
   margin-top: 20px;
 }
 
+// フォロー、フォロワー数表示部
+.stats, a {
+  padding-right: 10px;
+}
+
 //// ユーザー一覧ページ ////
 .users {
   list-style: none;
