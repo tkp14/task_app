@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "ユーザーフォロー機能", type: :request do
   let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
 
   context "ログインしていない場合" do
     it "followingページへ飛ぶとログインページへリダイレクトすること" do
@@ -26,6 +27,40 @@ RSpec.describe "ユーザーフォロー機能", type: :request do
         delete relationship_path(user)
       }.not_to change(Relationship, :count)
       expect(response).to redirect_to login_path
+    end
+  end
+
+  context "ログインしている場合" do
+    before do
+      login_for_request(user)
+    end
+
+    it "ユーザーのフォローができること" do
+      expect {
+        post relationships_path, params: { followed_id: other_user.id }
+      }.to change(user.following, :count).by(1)
+    end
+
+    it "ユーザーのAjaxによるフォローができること" do
+      expect {
+        post relationships_path, xhr: true, params: { followed_id: other_user.id }
+      }.to change(user.following, :count).by(1)
+    end
+
+    it "ユーザーのフォロー解除ができること" do
+      user.follow(other_user)
+      relationship = user.active_relationships.find_by(followed_id: other_user.id)
+      expect {
+        delete relationship_path(relationship)
+      }.to change(user.following, :count).by(-1)
+    end
+
+    it "ユーザーのAjaxによるフォローができること" do
+      user.follow(other_user)
+      relationship = user.active_relationships.find_by(followed_id: other_user.id)
+      expect {
+        delete relationship_path(relationship), xhr: true
+      }.to change(user.following, :count).by(-1)
     end
   end
 end
