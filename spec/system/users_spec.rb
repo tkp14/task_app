@@ -81,6 +81,11 @@ RSpec.describe "Users", type: :system do
       it "タスクのページネーションが表示されていることを確認" do
         expect(page).to have_css "div.pagination"
       end
+
+      it "フォローとフォロワーの人数が表示されており、リンクが繋がっていること" do
+        expect(page).to have_link "#{user.following.count}人をフォロー", href: following_user_path(user)
+        expect(page).to have_link "#{user.followers.count}人のフォロワー", href: followers_user_path(user)
+      end
     end
 
     context "タスクの削除処理", js: true do

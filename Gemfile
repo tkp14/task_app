@@ -30,7 +30,6 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rubocop-airbnb'
   gem "factory_bot_rails", "~> 4.10.0"
-  gem 'database_cleaner'
 end
 
 group :development do
