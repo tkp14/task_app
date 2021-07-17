@@ -9,7 +9,7 @@ RSpec.describe "Relationships", type: :system do
   describe "フォロー中(following一覧)ページ" do
     before do
       create(:relationship, follower_id: user.id, followed_id: user2.id)
-      create(:relationship, follower_id: user.id, followed_id: user3.id)
+      create(:relationship, follower_id: user2.id, followed_id: user.id)
       login_for_system(user)
       visit following_user_path(user)
     end
