@@ -1,5 +1,13 @@
 class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
+  has_many :active_relationships, class_name: "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent: :destroy
+  has_many :following, through: :active_relationships,  source: :followed
+  has_many :passive_relationships, class_name: "Relationship",
+                                  foreign_key: "followed_id",
+                                  dependent: :destroy
+  has_many :followers, through: :passive_relationships,  source: :follower
   attr_accessor :remember_token #仮想の属性を作成
   before_save :downcase_email #セーブする前に小文字にする
   validates :name, presence: true, length: { maximum: 50 }
@@ -25,9 +33,12 @@ class User < ApplicationRecord
     end
   end
 
-  # フィード一覧を取得
+  # ユーザーのステータスフィードを返す
   def feed
-    Task.where(user_id: id)
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id"
+    Task.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
   end
 
   # 永続セッションのためにユーザーをデータベースに記憶する
@@ -45,6 +56,26 @@ class User < ApplicationRecord
     # ユーザーのログイン情報を破棄する
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # ユーザーをフォローする
+  def follow(other_user)
+    following << other_user
+  end
+
+  # ユーザーをフォロー解除する
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # 現在のユーザーがフォローしてたらtrueを返す(主語は自分)
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  # 現在のユーザーがフォローされていたらtrueを返す(主語は相手)
+  def followed_by?(other_user)
+    followers.include?(other_user)
   end
 
   private

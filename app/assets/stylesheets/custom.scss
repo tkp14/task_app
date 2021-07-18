@@ -57,7 +57,7 @@ p {
 // ヘッダー
 .navbar ul{
   margin-top: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
  #logo  {
   float: left;
@@ -149,6 +149,11 @@ input {
   margin-top: 20px;
 }
 
+// フォロー、フォロワー数表示部
+.stats {
+  padding-right: 10px;
+}
+
 //// ユーザー一覧ページ ////
 .users {
   list-style: none;
@@ -236,3 +241,5 @@ input {
   height: auto;
   box-sizing: border-box;
 }
+
+//フォローページ、フォロワーページ

@@ -16,9 +16,13 @@
       <div class="show-introduction">
         <%= @user.introduction %>
       </div>
+      <div class="stats">
+        <%= render 'shared/stats' %>
+      </div>
       <% if current_user == @user %>
         <div class="account-edit"><%= link_to "プロフィール編集", edit_user_path(@user) %></div>
       <% end %>
+      <%= render 'follow_form' if logged_in? %>
     </div>
   </div>
   <div class="row">
