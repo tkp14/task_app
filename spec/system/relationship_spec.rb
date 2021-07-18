@@ -1,15 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "Relationships", type: :system do
-  let!(:user)  { create(:user) }
-  let!(:other_users)  { create_list(:user, 20)  }
+  let!(:user) { create(:user) }
+  let!(:user2) { create(:user) }
+  let!(:user3) { create(:user) }
+  let!(:user4) { create(:user) }
+  let!(:task) { create(:task, user: user) }
+  let!(:task2) { create(:task, user: user2) }
+  let!(:task3) { create(:task, user: user3) }
 
   describe "フォロー中(following一覧)ページ" do
     before do
-      other_users[0..9].each do |other_user|
-        user.active_relationships.create!(followed_id: other_user.id)
-        user.passive_relationships.create!(follower_id: other_user.id)
-      end
+      create(:relationship, follower_id: user.id, followed_id: user2.id)
+      create(:relationship, follower_id: user.id, followed_id: user3.id)
       login_for_system(user)
       visit following_user_path(user)
     end
@@ -44,10 +47,10 @@ RSpec.describe "Relationships", type: :system do
 
   describe "フォロワー(followers一覧)ページ" do
     before do
-      other_users[0..9].each do |other_user|
-        user.active_relationships.create!(followed_id: other_user.id)
-        user.passive_relationships.create!(follower_id: other_user.id)
-      end
+      create(:relationship, follower_id: user.id, followed_id: user2.id)
+      create(:relationship, follower_id: user2.id, followed_id: user.id)
+      create(:relationship, follower_id: user3.id, followed_id: user.id)
+      create(:relationship, follower_id: user4.id, followed_id: user.id)
       login_for_system(user)
       visit followers_user_path(user)
     end
@@ -57,7 +60,7 @@ RSpec.describe "Relationships", type: :system do
         expect(page).to have_content 'フォロワー'
       end
 
-      it "正しいタイトルが表示されること" do
+      it "正しいタイトルが表示されていること" do
         expect(page).to have_title full_title('フォロワー')
       end
 
@@ -77,6 +80,25 @@ RSpec.describe "Relationships", type: :system do
           end
         end
       end
+    end
+  end
+
+  describe "フィード" do
+    before do
+      create(:relationship, follower_id: user.id, followed_id: user2.id)
+      login_for_system(user)
+    end
+
+    it "フィードに自分の投稿が含まれていること" do
+      expect(user.feed).to include task
+    end
+
+    it "フィードにフォロー中ユーザーの投稿が含まれていること" do
+      expect(user.feed).to include task2
+    end
+
+    it "フィードにフォローしていないユーザーの投稿が含まれていないこと" do
+      expect(user.feed).not_to include task3
     end
   end
 end
