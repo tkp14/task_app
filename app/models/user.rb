@@ -8,6 +8,7 @@ class User < ApplicationRecord
                                   foreign_key: "followed_id",
                                   dependent: :destroy
   has_many :followers, through: :passive_relationships,  source: :follower
+  has_many :favorites, dependent: :destroy
   attr_accessor :remember_token #仮想の属性を作成
   before_save :downcase_email #セーブする前に小文字にする
   validates :name, presence: true, length: { maximum: 50 }
