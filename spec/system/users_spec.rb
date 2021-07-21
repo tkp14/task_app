@@ -4,6 +4,7 @@ RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:admin_user) { create(:user, :admin) }
+  let!(:task) { create(:task, user: user) }
 
   describe "ユーザー登録ページ" do
     before do
@@ -183,6 +184,22 @@ RSpec.describe "Users", type: :system do
             expect(page).not_to have_content "#{u.name} | 削除"
           end
         end
+      end
+    end
+  end
+
+  describe "いいね機能" do
+    context "いいね登録/解除" do
+      before do
+        login_for_system(user)
+      end
+
+      it "いいねの登録/解除ができること" do
+        expect(user.favorite?(task)).to be_falsey
+        user.favorite(task)
+        expect(user.favorite?(task)).to be_truthy
+        user.unfavorite(task)
+        expect(user.favorite?(task)).to be_falsey
       end
     end
   end
