@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "お気に入り登録機能", type: :request do
   let(:user) { create(:user) }
-  let(:dish) { create(:dish) }
+  let(:task) { create(:task) }
 
   context "お気に入り登録処理" do
     context "ログインしていない場合" do
