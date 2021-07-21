@@ -79,6 +79,21 @@ class User < ApplicationRecord
     followers.include?(other_user)
   end
 
+  #いいねする
+  def favorite(task)
+    Favorite.create!(user_id: id, task_id: task.id)
+  end
+
+  #いいねを解除する
+  def unfavorite(task)
+    Favorite.destroy!(user_id: id, task_id: task.id)
+  end
+
+  # 現在のユーザーがいいねしてたらtrueを返す(主語は自分)
+  def favorite?(task)
+    !Favorite.find_by(user_id: id, task_id: task.id).nil?
+  end
+
   private
     def downcase_email
       self.email = email.downcase
