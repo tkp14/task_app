@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   resources :users
   resources :tasks
   resources :relationships, only: [:create, :destroy]
+  post   "favorites/:dish_id/create"  => "favorites#create"
+  delete "favorites/:dish_id/destroy" => "favorites#destroy"
 end
