@@ -3,8 +3,8 @@
   <%= link_to gravatar_for(task.user, size: 50), task.user %>
   <span class="task-name"><%= link_to task.name, task_path(task) %></span><br>
   <%= link_to((image_tag task.picture.thumb200.url), task_path(task.id), class: 'task-picture') if task.picture.url.present? %>
-  <%= render 'users/favorite_form' %>
   <span class="task-introduction"><%= task.introduction %></span><br>
+  <%= render 'users/favorite_form' %>
   <span class="timestamp">
     <%= time_ago_in_words(task.created_at) %>前に投稿
   </span>
