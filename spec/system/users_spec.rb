@@ -201,6 +201,42 @@ RSpec.describe "Users", type: :system do
         user.unfavorite(task)
         expect(user.favorite?(task)).to be_falsey
       end
+
+      it "トップページからお気に入り登録/解除ができること", js: true do
+        visit root_path
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
+
+      it "ユーザー個別ページからお気に入り登録/解除ができること", js: true do
+        visit user_path(user)
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
+
+      it "料理個別ページからお気に入り登録/解除ができること", js: true do
+        visit task_path(task)
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
     end
   end
 end
