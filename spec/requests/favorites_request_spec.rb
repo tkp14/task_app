@@ -23,12 +23,14 @@ RSpec.describe "お気に入り登録機能", type: :request do
       end
 
       it "お気に入りの解除ができること" do
+        user.favorite(task)
         expect {
           delete "/favorites/#{task.id}/destroy"
         }.to change(Favorite, :count).by(-1)
       end
 
       it "Ajaxによるお気に入りの解除ができること" do
+        user.favorite(task)
         expect {
           delete "/favorites/#{task.id}/destroy", xhr: true
         }.to change(Favorite, :count).by(-1)
