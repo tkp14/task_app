@@ -226,7 +226,7 @@ RSpec.describe "Users", type: :system do
         expect(link[:href]).to include "/favorites/#{task.id}/create"
       end
 
-      it "料理個別ページからお気に入り登録/解除ができること", js: true do
+      it "タスク個別ページからお気に入り登録/解除ができること", js: true do
         visit task_path(task)
         link = find('.like')
         expect(link[:href]).to include "/favorites/#{task.id}/create"
