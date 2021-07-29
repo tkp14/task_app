@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
   post   "favorites/:task_id/create"  => "favorites#create"
   delete "favorites/:task_id/destroy" => "favorites#destroy"
+  get :favorites, to: 'favorites#index'
 end
