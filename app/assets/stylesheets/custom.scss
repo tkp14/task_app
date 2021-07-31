@@ -252,3 +252,17 @@ input {
   color: grey;
   display: inline-block;
 }
+
+a.like, a.unlike {
+  text-decoration: none;
+  padding-left: 70px;
+}
+
+.favorites {
+  list-style: none;
+}
+
+.favorite-task {
+  padding: 15px 0;
+  border-top: 1px solid #eaeaea;
+}
