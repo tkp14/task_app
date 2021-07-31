@@ -7,8 +7,8 @@
     </div>
     <div class="col-md-7">
       <p><%= link_to @task.name, task_path(@task) %></p>
-      <p><%= @task.description %></p>
-      <p class="cook-user">cooked by <%= link_to user.name, user_path(user) %></p>
+      <p><%= @task.introduction %></p>
+      <p class="task-user">tasked by <%= link_to user.name, user_path(user) %></p>
     </div>
   </div>
 </li>
