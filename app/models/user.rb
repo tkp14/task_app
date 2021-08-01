@@ -86,7 +86,7 @@ class User < ApplicationRecord
 
   #いいねを解除する
   def unfavorite(task)
-    Favorite.destroy!(user_id: id, task_id: task.id)
+    Favorite.find_by(user_id: id, task_id: task.id).destroy
   end
 
   # 現在のユーザーがいいねしてたらtrueを返す(主語は自分)

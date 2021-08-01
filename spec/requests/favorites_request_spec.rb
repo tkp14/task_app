@@ -60,7 +60,7 @@ RSpec.describe "お気に入り登録機能", type: :request do
 
       it "お気に入り一覧ページにはいかず、ログインページへリダイレクトされること" do
         get favorites_path
-        expect(response).not_to have_http_status "302"
+        expect(response).to have_http_status "302"
         expect(response).to redirect_to login_path
       end
     end
