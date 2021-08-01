@@ -8,6 +8,7 @@ class User < ApplicationRecord
                                   foreign_key: "followed_id",
                                   dependent: :destroy
   has_many :followers, through: :passive_relationships,  source: :follower
+  has_many :favorites, dependent: :destroy
   attr_accessor :remember_token #仮想の属性を作成
   before_save :downcase_email #セーブする前に小文字にする
   validates :name, presence: true, length: { maximum: 50 }
@@ -76,6 +77,21 @@ class User < ApplicationRecord
   # 現在のユーザーがフォローされていたらtrueを返す(主語は相手)
   def followed_by?(other_user)
     followers.include?(other_user)
+  end
+
+  #いいねする
+  def favorite(task)
+    Favorite.create!(user_id: id, task_id: task.id)
+  end
+
+  #いいねを解除する
+  def unfavorite(task)
+    Favorite.find_by(user_id: id, task_id: task.id).destroy
+  end
+
+  # 現在のユーザーがいいねしてたらtrueを返す(主語は自分)
+  def favorite?(task)
+    !Favorite.find_by(user_id: id, task_id: task.id).nil?
   end
 
   private

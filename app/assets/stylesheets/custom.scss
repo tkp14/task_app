@@ -242,4 +242,26 @@ input {
   box-sizing: border-box;
 }
 
-//フォローページ、フォロワーページ
+// お気に入り
+
+.like-btn-unlike {
+  color: red;
+  display: inline-block;
+}
+.like-btn-like {
+  color: grey;
+  display: inline-block;
+}
+
+a.like, a.unlike {
+  text-decoration: none;
+}
+
+.favorites {
+  list-style: none;
+}
+
+.favorite-task {
+  padding: 15px 0;
+  border-top: 1px solid #eaeaea;
+}

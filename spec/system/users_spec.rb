@@ -4,6 +4,8 @@ RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:admin_user) { create(:user, :admin) }
+  let!(:task) { create(:task, user: user) }
+  let!(:other_task) { create(:task, user: other_user) }
 
   describe "ユーザー登録ページ" do
     before do
@@ -183,6 +185,73 @@ RSpec.describe "Users", type: :system do
             expect(page).not_to have_content "#{u.name} | 削除"
           end
         end
+      end
+    end
+  end
+
+  describe "いいね機能" do
+    context "いいね登録/解除" do
+      before do
+        login_for_system(user)
+      end
+
+      it "トップページからお気に入り登録/解除ができること", js: true do
+        visit root_path
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
+
+      it "ユーザー個別ページからお気に入り登録/解除ができること", js: true do
+        visit user_path(user)
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
+
+      it "タスク個別ページからお気に入り登録/解除ができること", js: true do
+        visit task_path(task)
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+        link.click
+        link = find('.unlike')
+        expect(link[:href]).to include "/favorites/#{task.id}/destroy"
+        link.click
+        link = find('.like')
+        expect(link[:href]).to include "/favorites/#{task.id}/create"
+      end
+
+      it "お気に入りページで、登録した数だけ表示されていること" do
+        visit favorites_path
+        expect(page).not_to have_css ".favorite-task"
+        user.favorite(task)
+        user.favorite(other_task)
+        visit favorites_path
+        expect(page).to have_css ".favorite-task", count: 2
+        expect(page).to have_content task.name
+        expect(page).to have_content task.introduction
+        expect(page).to have_content "tasked by #{user.name}"
+        expect(page).to have_link user.name, href: user_path(user)
+        expect(page).to have_link task.name, href: task_path(task)
+        expect(page).to have_content other_task.name
+        expect(page).to have_content other_task.introduction
+        expect(page).to have_content "tasked by #{other_user.name}"
+        expect(page).to have_link other_user.name, href: user_path(other_user)
+        expect(page).to have_link other_task.name, href: task_path(other_task)
+        user.unfavorite(other_task)
+        visit favorites_path
+        expect(page).to have_css ".favorite-task", count: 1
+        expect(page).to have_content task.name
       end
     end
   end
