@@ -8,7 +8,7 @@ class FavoritesController < ApplicationController
   def create
     @task = Task.find(params[:task_id])
     @user = @task.user
-    current_user.favorite(@task)
+    current_user.favorite(@user)
     respond_to do |format|
       format.html { redirect_to request.referrer || root_url }
       format.js
