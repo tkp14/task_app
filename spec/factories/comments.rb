@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    user_id 1
-    task_id 1
+    association :user
+    association :task
     content "MyText"
   end
 end
