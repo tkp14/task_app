@@ -1,0 +1,10 @@
+<%= form_with model: @comment, local: true do |f| %>
+
+  <div class = 'row'>
+    <div class="col-md-5 form-group">
+      <%= f.label "コメント" %>
+      <%= f.text_area :content, class: 'form-comment', id: 'task_comment' %>
+    </div>
+    <%= f.submit "返信", class: 'btn btn-primary col-md-2' %>
+  </div>
+<% end %>

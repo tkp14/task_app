@@ -6,21 +6,25 @@ class CommentsController < ApplicationController
     @task = Task.find(params[:task_id])
     #誰のか
     @user = @task.user
-    current_user.comment(@user)
-    respond_to do |format|
-      format.html { redirect_to request.referrer || root_url }
-      format.js
+    if current_user.comment(@user)
+      flash[:success] = "コメントを書き込みました"
+      redirect_to @user
+    else
+      flash[:danger] = "50文字以内でコメントしてください"
+      redirect_to root_url
     end
   end
 
   def destroy
     #どのタスクか
     @task = Task.find(params[:task_id])
-    #タスクのidを探し、削除
-    current_user.comments.find_by(task_id: @task.id).destroy
-    respond_to do |format|
-      format.html { redirect_to request.referrer || root_url }
-      format.js
+    if current_user.admin? || current_user?(@task.user)
+      @task.destroy
+      flash[:success] = "コメントを削除しました"
+      redirect_to @task
+    else
+      flash[:danger] = "コメントの削除はできません"
+      redirect_to root_url
     end
   end
 end
