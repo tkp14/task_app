@@ -1,27 +1,17 @@
 <% @task = task %>
 <li id="task-<%= task.id %>">
   <%= link_to gravatar_for(task.user, size: 50), task.user %>
-  <span class="task-name"><%= link_to task.name, task_path(task) %></span><br>
+  <span class="task-name"><%= link_to task.name, task_path(task) %></span><br><br>
   <div class="col-md-4">
     <%= link_to((image_tag task.picture.thumb200.url), task_path(task.id), class: 'task-picture') if task.picture.url.present? %>
   </div>
-  <div class="col-md-6">
-    <span class="task-introduction"><%= task.introduction %></span><br>
-  </div>
-  <%= form_with model: @comment, local: true do |f| %>
-    <div class = 'row'>
-      <div class="col-md-5 form-group">
-        <%= f.label "コメント" %>
-        <%= f.text_area :content, class: 'form-control', id: 'task_comment' %>
-      </div>
-      <%= f.submit "返信", class: 'btn btn-primary col-md-1' %>
-    </div>
-  <% end %>
+  <span class="col-md-8 task-introduction"><%= task.introduction %></span><br>
+  <%= render 'users/comment' %>
   <%= render 'users/favorite_form' %>
-  <span class="timestamp">
+  <span class="timestamp col-md-6">
     <%= time_ago_in_words(task.created_at) %>前に投稿
   </span>
-  <span class="task-delete">
+  <span class="task-delete col-md-6">
     <% if current_user.admin? || (current_user == task.user) %>
       <%= link_to "削除", task_path(task), method: :delete,
                         data: { confirm: "本当に削除しますか？" } %>

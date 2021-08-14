@@ -1,7 +1,9 @@
-<div id="favorite-<%= @task.id %>">
-  <% if !current_user.nil? && current_user.favorite?(@task) %>
-    <%= render 'users/unfavorite' %>
-  <% else %>
-    <%= render 'users/favorite' %>
-  <% end %>
+<div class="col-md-12 task-favorite">
+  <div id="favorite-<%= @task.id %>">
+    <% if !current_user.nil? && current_user.favorite?(@task) %>
+      <%= render 'users/unfavorite' %>
+    <% else %>
+      <%= render 'users/favorite' %>
+    <% end %>
+  </div>
 </div>

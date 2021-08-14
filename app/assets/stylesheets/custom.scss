@@ -187,20 +187,20 @@ input {
   font-size: 2em;
 }
 
-// .task-content {
-//   float: right;
-// }
-
 .task-introduction {
   font-size: 1.5em;
+  padding-right: 0;
+  padding-bottom: 20px;
 }
 
-.timestamp {
-  padding-left: 10px;
-  padding-top: 15px;
-  display: inline-block;
-  padding-right: 60px;
+.form-comment .form-control {
+  margin-bottom: 0;
+}
+
+.comment-btn {
   float: right;
+  padding: 0;
+  margin-right: 6px;
 }
 
 .gravatar {
@@ -210,9 +210,7 @@ input {
 }
 
 .task-delete {
-  padding-top: 15px;
-  padding-left: 10px;
-  display: inline-block;
+  text-align: right;
 }
 
 //// トップページ（ログイン後） ////
@@ -267,4 +265,8 @@ a.like, a.unlike {
 .favorite-task {
   padding: 15px 0;
   border-top: 1px solid #eaeaea;
+}
+
+.task-favorite {
+  padding-bottom: 15px;
 }

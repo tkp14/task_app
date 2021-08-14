@@ -4,13 +4,10 @@ class CommentsController < ApplicationController
   def create
     #どのタスクか
     @task = Task.find(params[:task_id])
-    #誰のか
-    @user = @task.user
-    if current_user.comment(@user)
+    if current_user.comment(@task)
       flash[:success] = "コメントを書き込みました"
       redirect_to @user
     else
-      flash[:danger] = "50文字以内でコメントしてください"
       redirect_to root_url
     end
   end
