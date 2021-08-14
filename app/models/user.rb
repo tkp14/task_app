@@ -94,11 +94,6 @@ class User < ApplicationRecord
     !Favorite.find_by(user_id: id, task_id: task.id).nil?
   end
 
-  #コメントする
-  def comment(task)
-    Comment.create!(user_id: id, task_id: task.id)
-  end
-
   private
     def downcase_email
       self.email = email.downcase

@@ -3,14 +3,18 @@ class CommentsController < ApplicationController
 
   def create
     #どのタスクか
-    @comment = Task.find(params[:task_id])
-    @user = @comment.user
-    if @comment.save
+    #先ほどのhidden_field_tagで送られてきたdish_idを使用
+    @task = Task.find(params[:task_id])
+    #誰のか
+    @user = @task.user
+    #user_idはそのままcurrent_userのidとし、コメントの内容はparams[:comment][:content]で受け取っています
+    @comment = @task.comments.build(user_id: current_user.id, content: params[:comment][:content])
+    if !@task.nil? && @comment.save
       flash[:success] = "コメントを書き込みました"
-      redirect_to @user
     else
-      redirect_to root_url
+      flash[:danger] = "空のコメントは投稿できません。"
     end
+    redirect_to request.referer || root_url
   end
 
   def destroy
