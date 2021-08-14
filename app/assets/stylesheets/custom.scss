@@ -221,7 +221,7 @@ input {
 }
 
 /// タスク詳細ページ///
-.task_introduction li {
+.task_introduction {
   font-size: 2em;
   font-weight: 300;
   text-align: center;
@@ -269,4 +269,18 @@ a.like, a.unlike {
 
 .task-favorite {
   padding-bottom: 15px;
+}
+
+.show-favorite .task-favorite {
+  padding-left: 0;
+}
+
+//コメント機能
+.comment {
+  list-style: none;
+  padding-top: 50px;
+}
+
+.comment .form-comment {
+  padding-left: 0;
 }

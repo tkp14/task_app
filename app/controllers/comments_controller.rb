@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   def create
     #どのタスクか
     @comment = Task.find(params[:task_id])
+    @user = @comment.user
     if @comment.save
       flash[:success] = "コメントを書き込みました"
       redirect_to @user
