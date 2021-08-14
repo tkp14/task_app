@@ -3,8 +3,8 @@ class CommentsController < ApplicationController
 
   def create
     #どのタスクか
-    @task = Task.find(params[:task_id])
-    if current_user.comment(@task)
+    @comment = Task.find(params[:task_id])
+    if @comment.save
       flash[:success] = "コメントを書き込みました"
       redirect_to @user
     else
@@ -14,9 +14,9 @@ class CommentsController < ApplicationController
 
   def destroy
     #どのタスクか
-    @task = Task.find(params[:task_id])
+    @comment = Task.find(params[:task_id])
     if current_user.admin? || current_user?(@task.user)
-      @task.destroy
+      @comment.destroy
       flash[:success] = "コメントを削除しました"
       redirect_to @task
     else
