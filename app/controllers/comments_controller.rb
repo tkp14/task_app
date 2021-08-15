@@ -18,15 +18,16 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    #どのタスクか
-    @comment = Task.find(params[:task_id])
-    if current_user.admin? || current_user?(@task.user)
+    #コメントのid
+    @comment = Comment.find(params[:id])
+    #そのコメントのidを持ったタスク
+    @task = @comment.task
+    if @comment.user_id
       @comment.destroy
       flash[:success] = "コメントを削除しました"
-      redirect_to @task
     else
       flash[:danger] = "コメントの削除はできません"
-      redirect_to root_url
     end
+    redirect_to task_url(@task)
   end
 end
