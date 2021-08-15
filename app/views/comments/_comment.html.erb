@@ -1,0 +1,16 @@
+<% comment_user = User.find(comment.user_id) %>
+<li id="comment-<%= comment.id %>">
+  <div class="row">
+    <div class="col-md-4">
+      <span class="user"><%= link_to comment_user.name, comment_user %></span>
+    </div>
+    <div class="col-md-8">
+      <span class="task-comment"><%= comment.content %></span>
+    </div>
+    <div class="col-md-6">
+      <span class="timestamp">
+        <%= time_ago_in_words(comment.created_at) %>前に投稿
+      </span>
+    </div>
+  </div>
+</li>

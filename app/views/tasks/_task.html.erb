@@ -6,7 +6,7 @@
     <%= link_to((image_tag task.picture.thumb200.url), task_path(task.id), class: 'task-picture') if task.picture.url.present? %>
   </div>
   <span class="col-md-8 task-introduction"><%= task.introduction %></span><br>
-  <%= render 'users/comment' %>
+  <%= render 'users/comment_form' %>
   <%= render 'users/favorite_form' %>
   <span class="timestamp col-md-6">
     <%= time_ago_in_words(task.created_at) %>前に投稿
