@@ -287,4 +287,14 @@ a.like, a.unlike {
 
 .comments {
   list-style: none;
+  padding-bottom: 15px;
+}
+
+.task-comment {
+  border-top: 1px solid #eaeaea;
+  padding-top: 15px;
+}
+
+.comment-timestamp {
+  padding-top: 10px;
 }
