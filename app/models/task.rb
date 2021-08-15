@@ -9,6 +9,11 @@ class Task < ApplicationRecord
   validates  :introduction, presence: true, length: { maximum: 200 }
   validate   :picture_size
 
+  # タスクに付属するコメントのフィードを作成
+  def feed_comment(dish_id)
+    Comment.where("dish_id = ?", dish_id)
+  end
+
   private
 
     # アップロードされた画像のサイズを制限する
