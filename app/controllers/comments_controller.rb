@@ -22,7 +22,9 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     #そのコメントのidを持ったタスク
     @task = @comment.task
-    if @comment.user_id
+    #@comment.user_idだけでは他のユーザーでも削除できてしまう
+    #ログインしているユーザーとコメントしたuser_idが同じ場合
+    if current_user.id == @comment.user_id
       @comment.destroy
       flash[:success] = "コメントを削除しました"
     else
