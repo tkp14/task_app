@@ -10,8 +10,8 @@ class Task < ApplicationRecord
   validate   :picture_size
 
   # タスクに付属するコメントのフィードを作成
-  def feed_comment(dish_id)
-    Comment.where("dish_id = ?", dish_id)
+  def feed_comment(task_id)
+    Comment.where("task_id = ?", task_id)
   end
 
   private
