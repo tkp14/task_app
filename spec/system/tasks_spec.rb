@@ -4,6 +4,7 @@ RSpec.describe "Tasks", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:task) { create(:task, :picture, user: user) }
+  let!(:comment) { create(:comment, user_id: user.id, task: task) }
 
   describe "タスクの投稿について" do
     before do
@@ -65,38 +66,35 @@ RSpec.describe "Tasks", type: :system do
       end
 
       it "削除リンクが表示されており、タスクを削除できること" do
-        click_link "削除"
+        click_link "削除", href: task_path(task)
         page.driver.browser.switch_to.alert.accept
         expect(page).to have_content "タスクの削除をしました"
       end
     end
 
     context "コメントの登録/削除" do
-      before do
+      it "自分のタスクに対するコメントの登録＆削除が正常に完了すること" do
         login_for_system(user)
         visit task_path(task)
-      end
-
-      it "自分のタスクに対するコメントの登録＆削除が正常に完了すること" do
         fill_in "comment_content", with: "今日はたくさん勉強した"
         click_button "返信"
         within find("#comment-#{Comment.last.id}") do
-          expect(page).to have_selector 'span', text: task.name
-          expect(page).to have_selector 'span', "今日はたくさん勉強した"
+          expect(page).to have_selector 'span', text: user.name
+          expect(page).to have_selector 'span', text: "今日はたくさん勉強した"
         end
         expect(page).to have_content "コメントを書き込みました"
         click_link "削除", href: comment_path(Comment.last)
-        expect(page).not_to have_selector 'span', "今日はたくさん勉強した"
+        expect(page).not_to have_selector 'span', text: "今日はたくさん勉強した"
         expect(page).to have_content "コメントを削除しました"
       end
 
-      it "別のユーザーの場合は削除ボタンが表示されないこと" do
-        fill_in "comment_content", with: "今日はたくさん勉強した"
-        click_button "返信"
-        within find("#comment-#{Comment.last.id}") do
-          expect(page).to have_selector 'span', text: task.name
-          expect(page).to have_selector 'span', "今日はたくさん勉強した"
-          expect(page).not_to have_link "削除" href: task_path(task)
+      it "別のユーザーの場合は削除リンクが表示されないこと" do
+        login_for_system(other_user)
+        visit task_path(task)
+        within find("#comment-#{comment.id}") do
+          expect(page).to have_selector 'span', text: user.name
+          expect(page).to have_selector 'span', text: comment.content
+          expect(page).not_to have_link "削除", href: comment_path(comment)
         end
       end
     end
