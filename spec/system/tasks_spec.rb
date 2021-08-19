@@ -88,7 +88,7 @@ RSpec.describe "Tasks", type: :system do
         expect(page).to have_content "コメントを削除しました"
       end
 
-      it "別のユーザーの場合は削除リンクが表示されないこと" do
+      it "別のユーザーの場合はタスクのコメントの削除リンクが表示されないこと" do
         login_for_system(other_user)
         visit task_path(task)
         within find("#comment-#{comment.id}") do
