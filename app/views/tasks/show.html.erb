@@ -1,16 +1,21 @@
 <% provide(:title, "#{@task.name}") %>
+<% @comments = @task.feed_comment(@task.id) %>
 <div class="container">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <h1><%= @task.name %></h1>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 show-favorite">
       <%= link_to((image_tag @task.picture.thumb400.url), task_path(@task.id), class: 'task-picture') if @task.picture.url.present? %>
       <%= render 'users/favorite_form' %>
     </div>
-    <div class="task_introduction col-md-8">
+    <div class="col-md-8">
       <ul>
-        <li><%= @task.introduction %></li>
+        <li class="task_introduction"><%= @task.introduction %></li>
+        <li class="comment">
+          <%= render "comments/feed_comments" %>
+          <%= render "comments/new" %>
+        </li>
       </ul>
     </div>
     <div class="task-edit col-md-12">

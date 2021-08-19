@@ -188,16 +188,19 @@ input {
 }
 
 .task-introduction {
-  padding-left: 150px;
   font-size: 1.5em;
+  padding-right: 0;
+  padding-bottom: 20px;
 }
 
-.timestamp {
-  padding-left: 10px;
-  padding-top: 15px;
-  display: inline-block;
-  padding-right: 60px;
+.form-comment .form-control {
+  margin-bottom: 0;
+}
+
+.comment-btn {
   float: right;
+  padding: 0;
+  margin-right: 6px;
 }
 
 .gravatar {
@@ -207,9 +210,7 @@ input {
 }
 
 .task-delete {
-  padding-top: 15px;
-  padding-left: 10px;
-  display: inline-block;
+  text-align: right;
 }
 
 //// トップページ（ログイン後） ////
@@ -220,7 +221,7 @@ input {
 }
 
 /// タスク詳細ページ///
-.task_introduction li {
+.task_introduction {
   font-size: 2em;
   font-weight: 300;
   text-align: center;
@@ -264,4 +265,40 @@ a.like, a.unlike {
 .favorite-task {
   padding: 15px 0;
   border-top: 1px solid #eaeaea;
+}
+
+.task-favorite {
+  padding-bottom: 15px;
+}
+
+.show-favorite .task-favorite {
+  padding-left: 0;
+}
+
+//コメント機能
+.comment {
+  list-style: none;
+  padding-top: 50px;
+}
+
+.comment .form-comment {
+  padding-left: 0;
+}
+
+.comments {
+  list-style: none;
+  padding-bottom: 15px;
+}
+
+.task-comment {
+  border-top: 1px solid #eaeaea;
+  padding-top: 15px;
+}
+
+.comment-timestamp {
+  padding-top: 10px;
+}
+
+.comment-delete {
+  padding-top: 10px;
 }

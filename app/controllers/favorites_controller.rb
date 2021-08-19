@@ -7,10 +7,10 @@ class FavoritesController < ApplicationController
 
   def create
     @task = Task.find(params[:task_id])
-    @user = @task.user
+    #どのtaskにいいねするか
     current_user.favorite(@task)
     respond_to do |format|
-      format.html { redirect_to request.referrer || root_url }
+      format.html { redirect_to request.referer || root_url }
       format.js
     end
   end
@@ -19,7 +19,7 @@ class FavoritesController < ApplicationController
     @task = Task.find(params[:task_id])
     current_user.favorites.find_by(task_id: @task.id).destroy
     respond_to do |format|
-      format.html { redirect_to request.referrer || root_url }
+      format.html { redirect_to request.referer || root_url }
       format.js
     end
   end
