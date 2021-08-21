@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   delete "favorites/:task_id/destroy" => "favorites#destroy"
   get :favorites, to: 'favorites#index'
   resources :comments, only: [:create, :destroy]
-  get :notifications, to: 'notifications#index'
+  resources :notifications, only: :index
 end
