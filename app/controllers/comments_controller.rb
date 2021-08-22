@@ -11,6 +11,13 @@ class CommentsController < ApplicationController
     @comment = @task.comments.build(user_id: current_user.id, content: params[:comment][:content])
     if !@task.nil? && @comment.save
       flash[:success] = "コメントを書き込みました"
+      # 自分以外のユーザーからコメントがあったときのみ通知を作成
+      if @user != current_user
+        @user.notifications.create(task_id: @task.id, variety: 2,
+                                   from_user_id: current_user.id,
+                                   content: @comment.content)#コメントは通知2
+        @user.update_attribute(:notification, true)
+      end
     else
       flash[:danger] = "空のコメントは投稿できません。"
     end

@@ -255,4 +255,82 @@ RSpec.describe "Users", type: :system do
       end
     end
   end
+
+  describe "通知について" do
+    before do
+      login_for_system(user)
+    end
+
+    context "他のユーザーのタスクに対して" do
+      before do
+        visit task_path(other_task)
+      end
+
+      it "お気に入りした場合、通知が作成されること" do
+        find('.like').click
+        visit task_path(other_task)
+        expect(page).to have_css 'li.no_notification'
+        logout
+        login_for_system(other_user)
+        expect(page).to have_css 'li.new_notification'
+        visit notifications_path
+        expect(page).to have_css 'li.no_notification'
+        expect(page).to have_content "あなたのタスクが#{user.name}さんにお気に入り登録されました。"
+        expect(page).to have_content other_task.name
+        expect(page).to have_content other_task.introduction
+        expect(page).to have_content other_task.created_at.strftime("%Y/%m/%d(%a) %H:%M")
+      end
+
+      it "コメントした場合、通知が作成されること" do
+        fill_in "comment_content", with: "今日はたくさん勉強した"
+        click_button "返信"
+        visit task_path(other_task)
+        expect(page).to have_css 'li.no_notification'
+        logout
+        login_for_system(other_user)
+        expect(page).to have_css 'li.new_notification'
+        visit notifications_path
+        expect(page).to have_css 'li.no_notification'
+        expect(page).to have_content "あなたのタスクに#{user.name}さんがコメントしました。"
+        expect(page).to have_content other_task.name
+        expect(page).to have_content other_task.introduction
+        expect(page).to have_content other_task.created_at.strftime("%Y/%m/%d(%a) %H:%M")
+      end
+    end
+
+    context "自分のタスクに対して" do
+      before do
+        visit task_path(task)
+      end
+
+      it "お気に入りした場合、通知が作成ないこと" do
+        find('.like').click
+        visit task_path(task)
+        expect(page).to have_css 'li.no_notification'
+        logout
+        login_for_system(user)
+        expect(page).to have_css 'li.no_notification'
+        visit notifications_path
+        expect(page).not_to have_content "あなたのタスクが#{user.name}さんにお気に入り登録されました。"
+        expect(page).not_to have_content other_task.name
+        expect(page).not_to have_content other_task.introduction
+        expect(page).not_to have_content other_task.created_at.strftime("%Y/%m/%d(%a) %H:%M")
+      end
+
+      it "コメントした場合、通知が作成ないこと" do
+        fill_in "comment_content", with: "今日はたくさん勉強した"
+        click_button "返信"
+        visit task_path(task)
+        expect(page).to have_css 'li.no_notification'
+        logout
+        login_for_system(user)
+        expect(page).to have_css 'li.no_notification'
+        visit notifications_path
+        expect(page).not_to have_content "あなたのタスクに#{user.name}さんがコメントしました。"
+        expect(page).not_to have_content other_task.name
+        expect(page).not_to have_content other_task.introduction
+        expect(page).not_to have_content other_task.created_at.strftime("%Y/%m/%d(%a) %H:%M")
+      end
+    end
+  end
 end

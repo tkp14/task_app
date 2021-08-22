@@ -1,0 +1,22 @@
+<% user = User.find(notification.from_user_id) %>
+<% task = Task.find(notification.task_id) %>
+<li id="notification-<%= notification.id %>">
+  <div>
+    <% if notification.variety == 1 %>
+      <p><%= notification.created_at.strftime("%Y/%m/%d(%a) %H:%M") %></p>
+      <p class="notification-message">あなたのタスクが<%= link_to user.name, user_path(user) %>さんにお気に入り登録されました。</p>
+    <% elsif notification.variety == 2 %>
+      <p><%= notification.created_at.strftime("%Y/%m/%d(%a) %H:%M") %></p>
+      <p class="notification-message">あなたのタスクに<%= link_to user.name, user_path(user) %>さんがコメントしました。「<%= notification.content %>」</p>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <%= link_to((image_tag task.picture.url), task_path(task), class: 'task-picture') %>
+    </div>
+    <div class="col-md-7">
+      <p><%= link_to task.name, task_path(task) %></p>
+      <p><%= task.introduction %></p>
+    </div>
+  </div>
+</li>
