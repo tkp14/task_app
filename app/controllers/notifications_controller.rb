@@ -5,6 +5,6 @@ class NotificationsController < ApplicationController
     # current_userに対する通知の集合を取得
     @notifications = current_user.notifications
     # 一度indexページを開いたら、ユーザーの「通知フラグ」を削除
-    current_user.update.attribute(:notification, false)
+    current_user.update_attribute(:notification, false)
   end
 end
