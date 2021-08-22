@@ -23,8 +23,8 @@ RSpec.describe Notification, type: :model do
       expect(notification).not_to be_valid
     end
 
-    it "variety_idがnilの場合は関係性が無効であること" do
-      notification.variety_id = nil
+    it "varietyがnilの場合は関係性が無効であること" do
+      notification.variety = nil
       expect(notification).not_to be_valid
     end
   end
