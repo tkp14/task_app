@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'lists/index'
   root 'static_pages#home'
   get :about,       to: 'static_pages#about'
   get :help,        to: 'static_pages#help'
@@ -19,4 +18,7 @@ Rails.application.routes.draw do
   delete "favorites/:task_id/destroy" => "favorites#destroy"
   resources :comments, only: [:create, :destroy]
   resources :notifications, only: :index
+  get :lists, to: 'lists#index'
+  post   "lists/:task_id/create"  => "lists#create"
+  delete "lists/:task_id/destroy" => "lists#destroy"
 end
