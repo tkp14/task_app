@@ -1,12 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe "Lists", type: :request do
+RSpec.describe "リスト機能", type: :request do
+  let(:user) { create(:user) }
 
-  describe "GET /index" do
-    it "returns http success" do
-      get "/lists/index"
-      expect(response).to have_http_status(:success)
+  describe "リスト一覧ページ" do
+    context "ログインしている場合" do
+      before do
+        login_for_request(user)
+      end
+
+      it "レスポンスが正常に表示されること" do
+        login_for_request(user)
+        get lists_path
+        expect(response).to have_http_status "200"
+        expect(response).to render_template('lists/index')
+      end
+    end
+
+    context "ログインしていない場合" do
+      it "ログイン画面にリダイレクトすること" do
+        get lists_path
+        expect(response).to have_http_status "302"
+        expect(response).to redirect_to login_path
+      end
     end
   end
-
 end
